@@ -64,7 +64,15 @@ if __name__ == "__main__":
         json.dump({'last_check': datetime.now().isoformat()}, f)
 
     # Load current content of the page (HTML or Markdown)
-    page_file = 'index.html'  # Or whatever file you're updating
+    page_file = './index.html'  # Ensure this path is correct
+
+    # Check if the page file exists
+    if not os.path.exists(page_file):
+        # If the file does not exist, create a basic one
+        with open(page_file, 'w') as f:
+            f.write("<html><body><!--ACTIVITIES_PLACEHOLDER--></body></html>")
+
+    # Now read the page content
     with open(page_file, 'r') as f:
         page_content = f.read()
 
