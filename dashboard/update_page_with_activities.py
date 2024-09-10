@@ -59,33 +59,38 @@ if __name__ == "__main__":
             'start_date': str(activity.start_date.isoformat()),
         })
 
-    # Update the last check time
-    with open(last_check_file, 'w') as f:
-        json.dump({'last_check': datetime.now().isoformat()}, f)
+    # Proceed only if there are new activities
+    if activity_data:
+        # Update the last check time only when new activities are found
+        with open(last_check_file, 'w') as f:
+            json.dump({'last_check': datetime.now().isoformat()}, f)
 
-    # Load current content of the page (HTML or Markdown)
-    page_file = './index.html'  # Ensure this path is correct
+        # Load current content of the page (HTML or Markdown)
+        page_file = './index.html'  # Ensure this path is correct
 
-    # Check if the page file exists
-    if not os.path.exists(page_file):
-        # If the file does not exist, create a basic one
-        with open(page_file, 'w') as f:
-            f.write("<html><body><!--ACTIVITIES_PLACEHOLDER--></body></html>")
+        # Check if the page file exists
+        if not os.path.exists(page_file):
+            # If the file does not exist, create a basic one
+            with open(page_file, 'w') as f:
+                f.write("<html><body><!--ACTIVITIES_PLACEHOLDER--></body></html>")
 
-    # Now read the page content
-    with open(page_file, 'r') as f:
-        page_content = f.read()
+        # Now read the page content
+        with open(page_file, 'r') as f:
+            page_content = f.read()
 
-    # Add the new activities to the page content
-    new_activities_html = "<h2>Recent Activities</h2><ul>"
-    for activity in activity_data:
-        new_activities_html += f"<li>{activity['name']} - {activity['distance']} meters on {activity['start_date']}</li>"
-    new_activities_html += "</ul>"
+        # Add the new activities to the page content
+        new_activities_html = "<h2>Recent Activities</h2><ul>"
+        for activity in activity_data:
+            new_activities_html += f"<li>{activity['name']} - {activity['distance']} meters on {activity['start_date']}</li>"
+        new_activities_html += "</ul>"
 
-    # Insert the new activities into the page content
-    updated_content = page_content.replace("<!--ACTIVITIES_PLACEHOLDER-->", new_activities_html)
+        # Insert the new activities into the page content
+        updated_content = page_content.replace("<!--ACTIVITIES_PLACEHOLDER-->", new_activities_html)
 
-    # Write the updated content back to the file
-    with open(page_file, 'w') as f:
-        f.write(updated_content)
+        # Write the updated content only if it has changed
+        if updated_content != page_content:
+            with open(page_file, 'w') as f:
+                f.write(updated_content)
+    else:
+        print("No new activities found. No updates made.")
 
