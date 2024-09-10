@@ -3,6 +3,7 @@ import os
 from datetime import datetime, timedelta
 
 from stravalib import Client
+from stravalib.model import SummaryActivity
 from stravalib.protocol import AccessInfo
 
 if __name__ == "__main__":
@@ -42,13 +43,14 @@ if __name__ == "__main__":
 
     # Collect activity data
     activity_data = []
-    for activity in activities:
+    for act  in activities:
+        activity: SummaryActivity = act
         activity_data.append({
-            'name': activity.name,
-            'distance': activity.distance,
-            'moving_time': activity.moving_time.total_seconds(),
-            'elapsed_time': activity.elapsed_time.total_seconds(),
-            'start_date': activity.start_date.isoformat(),
+            'name': str(activity.name),
+            'distance': str(activity.distance),
+            'moving_time': str(activity.moving_time),
+            'elapsed_time': str(activity.elapsed_time),
+            'start_date': str(activity.start_date.isoformat()),
         })
 
     # Update the last check time
