@@ -33,9 +33,16 @@ jobs:
         run: |
           python ./dashboard/update_page_with_activities.py
 
-      - name: Commit and push changes
+      - name: Check for changes
+        id: git-status
         run: |
-          git config --global user.email "you@example.com"
+          git status --porcelain
+          echo "::set-output name=status::$(git status --porcelain)"
+
+      - name: Commit and push changes
+        if: steps.git-status.outputs.status != ''
+        run: |
+          git config --global user.email "actions@github.com"
           git config --global user.name "GitHub Actions Bot"
           git add .
           git commit -m "Update activities from Strava"
