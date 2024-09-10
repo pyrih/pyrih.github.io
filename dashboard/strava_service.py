@@ -1,9 +1,9 @@
 from datetime import datetime, timedelta
 
-from dashboard.activity_page_updater import ActivityPageUpdater
-from dashboard.file_manager import FileManager
-from dashboard.strava_activity_fetcher import StravaActivityFetcher
-from dashboard.strava_authenticator import StravaAuthenticator
+from activity_page_updater import ActivityPageUpdater
+from file_manager import FileManager
+from strava_activity_fetcher import StravaActivityFetcher
+from strava_authenticator import StravaAuthenticator
 
 
 class StravaService:

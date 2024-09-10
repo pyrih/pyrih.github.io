@@ -1,7 +1,7 @@
 import calendar
 from datetime import datetime
 
-from dashboard.file_manager import FileManager
+from file_manager import FileManager
 
 
 class ActivityPageUpdater:

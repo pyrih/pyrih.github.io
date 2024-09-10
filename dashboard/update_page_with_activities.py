@@ -2,9 +2,9 @@ import os
 
 from stravalib import Client
 
-from dashboard.strava_activity_fetcher import StravaActivityFetcher
-from dashboard.strava_authenticator import StravaAuthenticator
-from dashboard.strava_service import StravaService
+from strava_activity_fetcher import StravaActivityFetcher
+from strava_authenticator import StravaAuthenticator
+from strava_service import StravaService
 
 if __name__ == "__main__":
     # Load Strava credentials from environment variables
