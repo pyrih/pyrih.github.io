@@ -21,8 +21,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt
+          pip install -r "./dashboard/requirements.txt"
 
       - name: Fetch Strava Activities and Update Page
         run: |
-          python update_page_with_activities.py
+          python ./dashboard/update_page_with_activities.py
