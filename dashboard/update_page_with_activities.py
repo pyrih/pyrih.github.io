@@ -32,6 +32,12 @@ if __name__ == "__main__":
 
     # Load the last check time from file
     last_check_file = './dashboard/misc/last_check.json'
+    last_check_dir = os.path.dirname(last_check_file)
+
+    # Ensure the directory exists
+    if not os.path.exists(last_check_dir):
+        os.makedirs(last_check_dir)
+
     if os.path.exists(last_check_file):
         with open(last_check_file, 'r') as f:
             last_check = datetime.fromisoformat(json.load(f)['last_check'])
