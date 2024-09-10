@@ -24,5 +24,17 @@ jobs:
           pip install -r "./dashboard/requirements.txt"
 
       - name: Fetch Strava Activities and Update Page
+        env:
+          STRAVA_CLIENT_ID: ${{ secrets.STRAVA_CLIENT_ID }}
+          STRAVA_CLIENT_SECRET: ${{ secrets.STRAVA_CLIENT_SECRET }}
+          STRAVA_REFRESH_TOKEN: ${{ secrets.STRAVA_REFRESH_TOKEN }}
         run: |
           python ./dashboard/update_page_with_activities.py
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.email "you@example.com"
+          git config --global user.name "GitHub Actions Bot"
+          git add .
+          git commit -m "Update activities from Strava"
+          git push
