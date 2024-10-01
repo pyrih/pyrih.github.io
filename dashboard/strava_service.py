@@ -48,10 +48,17 @@ class StravaService:
     def _fetch_new_activities(self, last_check: datetime) -> list:
         logging.info(f"Fetching activities after {last_check}")
         raw_activities = self.fetcher.fetch_activities(after_date=last_check)
+
         activity_projections = [
-            {'name': str(activity.name), 'distance': str(activity.distance), 'moving_time': str(activity.moving_time),
-             'elapsed_time': str(activity.elapsed_time), 'start_date': str(activity.start_date.isoformat())} for
-            activity in raw_activities]
+            {
+                'name': str(activity.name),
+                'distance': str(activity.distance),
+                'moving_time': str(activity.moving_time),
+                'elapsed_time': str(activity.elapsed_time),
+                'start_date': str(activity.start_date.isoformat())
+            } for
+            activity in raw_activities
+        ]
 
         logging.debug(f"Fetched {len(activity_projections)} raw activities.")
         return activity_projections
