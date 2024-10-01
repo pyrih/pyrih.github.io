@@ -1,4 +1,5 @@
 import calendar
+import logging
 from datetime import datetime
 
 from file_manager import FileManager
@@ -9,6 +10,7 @@ class ActivityPageUpdater:
         self.page_file = page_file
 
     def update_page_with_activities(self, activities: list) -> None:
+        logging.info(f"Updating {self.page_file} with {len(activities)} activities.")
         activities_by_date = self._group_activities_by_date(activities)
         calendar_html = self._generate_calendar_html(activities_by_date)
 
@@ -16,9 +18,13 @@ class ActivityPageUpdater:
         updated_content = page_content.replace("<!--CALENDAR_PLACEHOLDER-->", calendar_html)
 
         if updated_content != page_content:
+            logging.debug("The page content has changed, saving updates.")
             FileManager.save_file(self.page_file, updated_content)
+        else:
+            logging.info("No changes detected in the page content.")
 
     def _group_activities_by_date(self, activities: list) -> dict:
+        logging.debug("Grouping activities by date...")
         activities_by_date = {}
         for activity in activities:
             date_str = activity['start_date'].split('T')[0]
@@ -33,6 +39,7 @@ class ActivityPageUpdater:
         cal = calendar.Calendar(firstweekday=6)  # Sunday as the first day of the week
         days_in_month = cal.monthdayscalendar(now.year, now.month)
 
+        logging.debug("Generating HTML calendar with activities...")
         table_html = '<h2>Activity Calendar</h2><table border="1">'
         table_html += '<thead><tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr></thead><tbody>'
 
